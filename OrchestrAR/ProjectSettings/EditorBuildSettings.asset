@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/ARPlaceObjects.unity
+    guid: 17354a499c641487685afa8f5b9085cc
   m_configObjects: {}
