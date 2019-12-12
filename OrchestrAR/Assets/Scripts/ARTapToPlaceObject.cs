@@ -14,6 +14,7 @@ public class ARTapToPlaceObject : MonoBehaviour
     private ARRaycastManager rayCastManager;
     private Pose placementPose;
     private bool placementPoseIsValid = false;
+    private bool objectPlaced = false;
     public Camera arCamera;
 
     // Start is called before the first frame update
@@ -29,15 +30,32 @@ public class ARTapToPlaceObject : MonoBehaviour
         UpdatePlacementPose();
         UpdatePlacementIndicator();
 
-        if (placementPoseIsValid && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
-        {
-            PlaceObject();
-        }
+        //Debug.Log(objectPlaced);
+
+        //if (placementPoseIsValid && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        //{
+        //    PlaceObject();
+        // }
     }
 
-    private void PlaceObject()
+    public void PlaceObject()
     {
-        Instantiate(objectToPlace, placementPose.position, placementPose.rotation);
+        if (placementPoseIsValid)
+        {
+            Instantiate(objectToPlace, placementPose.position, placementPose.rotation);
+            objectPlaced = true;
+        }
+            
+    }
+
+    public void RemoveObject()
+    {
+        if (objectPlaced)
+        {
+            Destroy(objectToPlace);
+            objectPlaced = false;
+            Debug.Log("Object Destroyed!");
+        }
     }
 
     private void UpdatePlacementIndicator()
@@ -55,18 +73,28 @@ public class ARTapToPlaceObject : MonoBehaviour
 
     private void UpdatePlacementPose()
     {
-        var screenCenter = arCamera.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
-        var hits = new List<ARRaycastHit>();
-        rayCastManager.Raycast(screenCenter, hits, TrackableType.Planes);
-
-        placementPoseIsValid = hits.Count > 0;
-        if (placementPoseIsValid)
+        if (objectPlaced == false)
         {
-            placementPose = hits[0].pose;
+            var screenCenter = arCamera.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
+            var hits = new List<ARRaycastHit>();
+            rayCastManager.Raycast(screenCenter, hits, TrackableType.Planes);
 
-            var cameraForward = arCamera.transform.forward;
-            var cameraBearing = new Vector3(cameraForward.x, 0, cameraForward.z).normalized;
-            placementPose.rotation = Quaternion.LookRotation(cameraBearing);
+            placementPoseIsValid = hits.Count > 0;
+
+
+            if (placementPoseIsValid)
+            {
+                placementPose = hits[0].pose;
+
+                var cameraForward = arCamera.transform.forward;
+                var cameraBearing = new Vector3(cameraForward.x, 0, cameraForward.z).normalized;
+                placementPose.rotation = Quaternion.LookRotation(cameraBearing);
+            }
         }
+        else
+        {
+            placementPoseIsValid = false;
+        }
+        
     }
 }
