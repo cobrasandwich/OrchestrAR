@@ -9,6 +9,7 @@ using System;
 public class ARTapToPlaceObject : MonoBehaviour
 {
     public GameObject objectToPlace;
+    private GameObject generatedObject;
     public GameObject placementIndicator;
     private ARSessionOrigin arOrigin;
     private ARRaycastManager rayCastManager;
@@ -30,8 +31,6 @@ public class ARTapToPlaceObject : MonoBehaviour
         UpdatePlacementPose();
         UpdatePlacementIndicator();
 
-        //Debug.Log(objectPlaced);
-
         //if (placementPoseIsValid && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         //{
         //    PlaceObject();
@@ -42,20 +41,20 @@ public class ARTapToPlaceObject : MonoBehaviour
     {
         if (placementPoseIsValid)
         {
-            Instantiate(objectToPlace, placementPose.position, placementPose.rotation);
-            objectPlaced = true;
+            if (objectPlaced == false)
+            {
+                generatedObject = Instantiate(objectToPlace, placementPose.position, placementPose.rotation);
+                objectPlaced = true;
+            }
         }
             
     }
 
     public void RemoveObject()
     {
-        if (objectPlaced)
-        {
-            Destroy(objectToPlace);
-            objectPlaced = false;
-            Debug.Log("Object Destroyed!");
-        }
+        Destroy(generatedObject);
+        Debug.Log("Object Dead!");
+        objectPlaced = false;
     }
 
     private void UpdatePlacementIndicator()

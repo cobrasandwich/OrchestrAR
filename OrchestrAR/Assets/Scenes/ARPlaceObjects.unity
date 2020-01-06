@@ -1057,6 +1057,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectToPlace: {fileID: 7681485377615923698, guid: 4ae2ccbec3117454c801da2b3d3d5eb1,
     type: 3}
+  generatedObjects: []
   placementIndicator: {fileID: 2011212975}
   arCamera: {fileID: 364148734}
 --- !u!4 &2031363058

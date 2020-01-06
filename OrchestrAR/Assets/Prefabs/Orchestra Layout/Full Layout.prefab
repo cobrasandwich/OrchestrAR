@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1661408160295047018}
   m_Layer: 0
   m_Name: Full Layout
-  m_TagString: Untagged
+  m_TagString: Orchestra
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
